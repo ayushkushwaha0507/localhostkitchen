@@ -1,0 +1,29 @@
+/* TEAM */
+
+Developer: Ayush Kushwaha
+Role: Full Stack Developer
+Website: https://localhostkitchen.netlify.app
+GitHub: https://github.com/ayushkushwaha0507
+
+/* COMPANY */
+
+Business: Localhost Kitchen
+Type: Cloud Kitchen
+Service: Homemade Vegetarian Tiffin Service
+Location: Greater Noida, Uttar Pradesh, India
+FSSAI License: 22726441001307
+Phone: +91 7428662683
+Instagram: https://www.instagram.com/localhost.kitchen/
+
+/* WEBSITE */
+
+Built With:
+- HTML5
+- CSS3
+- JavaScript
+- GitHub
+- Netlify
+
+Last Updated: July 2026
+
+Thank you for visiting Localhost Kitchen!

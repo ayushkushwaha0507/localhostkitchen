@@ -121,9 +121,7 @@ function applyTheme(theme) {
 }
 (function initTheme() {
   const saved = localStorage.getItem(THEME_KEY);
-  if (saved) { applyTheme(saved); return; }
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(prefersDark ? 'dark' : 'light');
+  applyTheme(saved === 'dark' ? 'dark' : 'light');
 })();
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
