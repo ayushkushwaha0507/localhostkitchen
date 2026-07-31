@@ -27,7 +27,7 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
 
 // --- 3. Swiggy à la carte menu -----------------------------------
 // EDIT ME: paste your real Swiggy restaurant page link below.
-const SWIGGY_URL = "https://www.swiggy.com/"; // <-- replace with your store URL
+const SWIGGY_URL = "https://www.swiggy.com/menu/1416756?source=sharing"; // <-- replace with your store URL
 
 const swiggyMenu = [
   { name: "Rajma Thali", items: ["4 soft whole wheat phulka", "Fresh garden salad", "Lemon & pickle"], price: "₹89" },
@@ -538,7 +538,7 @@ if (reviewsTrack && reviewsDotsEl) {
 // automatically revert to their normal (non-discounted) price — so the
 // site never shows a "time's running out" countdown that doesn't mean
 // anything.
-const PROMO_END = new Date('2026-07-31T23:59:59+05:30');
+const PROMO_END = new Date('2026-08-31T23:59:59+05:30');
 
 function endPromo() {
   const banner = document.getElementById('promoBanner');
