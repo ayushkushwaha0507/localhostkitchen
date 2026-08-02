@@ -50,12 +50,46 @@
   "url": "https://localhostkitchen.netlify.app/",
   "logo": "https://localhostkitchen.netlify.app/images/Logo_Localhost.png",
   "description": "Localhost Kitchen is a cloud kitchen providing homemade vegetarian tiffin services in Greater Noida.",
-  "sameAs": ["https://www.instagram.com/localhost.kitchen/"],
+
+  "sameAs": [
+    "https://www.instagram.com/localhost.kitchen/"
+  ],
+
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Greater Noida"
+    },
+    {
+      "@type": "Place",
+      "name": "Delta 1"
+    },
+    {
+      "@type": "Place",
+      "name": "Alpha 1"
+    },
+    {
+      "@type": "Place",
+      "name": "Alpha 2"
+    },
+    {
+      "@type": "Place",
+      "name": "Beta 1"
+    },
+    {
+      "@type": "Place",
+      "name": "Gamma 1"
+    },
+    {
+      "@type": "Place",
+      "name": "Knowledge Park"
+    }
+  ],
+
   "contactPoint": {
     "@type": "ContactPoint",
     "telephone": "+91-7428662683",
     "contactType": "customer service",
-    "areaServed": "Greater Noida",
     "availableLanguage": ["en", "hi"]
   }
 }
@@ -72,13 +106,17 @@
   "telephone": "+91-7428662683",
   "servesCuisine": "Indian Vegetarian",
   "priceRange": "₹70 - ₹3570",
-  "acceptsReservations": "False",
+  "acceptsReservations": false, 
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "C-334 , Delta 1",
+    "streetAddress": "C-334, Delta 1",
     "addressLocality": "Greater Noida",
     "addressRegion": "Uttar Pradesh",
-    "addressCountry": "IN"
+    "postalCode": "201310",
+    "addressCountry": {
+      "@type": "Country",
+      "name": "IN"
+    }
   }
 }
 </script>
@@ -100,7 +138,7 @@
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "@id": "https://localhostkitchen.netlify.app/faq.html#faq"
+  "@id": "https://localhostkitchen.netlify.app/faq.html#faq",
   "mainEntity": [
     { "@type": "Question", "name": "What is Localhost Kitchen?", "acceptedAnswer": { "@type": "Answer", "text": "Localhost Kitchen is a homemade vegetarian tiffin service based in Delta 1, Greater Noida. We cook fresh lunch and dinner every day using simple, home-style recipes. Our goal is to give students, working professionals and families access to healthy, homemade food without the effort of cooking daily. Every tiffin is prepared fresh, packed hygienically, and delivered on time." } },
     { "@type": "Question", "name": "Where is Localhost Kitchen located?", "acceptedAnswer": { "@type": "Answer", "text": "We're based in Delta 1, Greater Noida, Uttar Pradesh. We operate as a cloud kitchen focused entirely on tiffin service, so all our energy goes into cooking and delivering fresh homemade food rather than running a dine-in restaurant." } },
