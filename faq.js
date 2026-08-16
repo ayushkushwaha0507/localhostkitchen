@@ -27,8 +27,8 @@ const faqData = [
     a: "A single meal starts at just ₹70, which typically includes roti, sabzi, dal or rajma-style curry, rice and a salad or raita — a complete, home-style thali. If you order regularly, our monthly subscription works out even more affordable per meal." },
 
   { id: 'monthly-subscription', category: 'pricing', popular: true,
-    q: 'What is included in the ₹3570 monthly subscription?',
-    a: "Our monthly subscription is ₹3570 and covers a full month of lunch and dinner tiffins, cooked fresh daily with a rotating homestyle menu. It's built for people who eat with us regularly — students, PG residents and working professionals — who want the convenience of not thinking about meals every day." },
+    q: 'What is included in the ₹4335 monthly subscription?',
+    a: "Our monthly subscription is ₹4335 and covers a full month of lunch and dinner tiffins, cooked fresh daily with a rotating homestyle menu. It's built for people who eat with us regularly — students, PG residents and working professionals — who want the convenience of not thinking about meals every day." },
 
   { id: 'single-meal-order', category: 'delivery',
     q: 'Can I order only one meal?',

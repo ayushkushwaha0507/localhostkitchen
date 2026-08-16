@@ -39,7 +39,7 @@ const PLANS = {
 // automatically. Use 0 for no discount.
 // =================================================================
 const PLAN_DISCOUNTS = {
-  full: 20,      // Full Week plan — 15% off
+  full: 15,      // Full Week plan — 15% off
   weekday: 15,   // Weekdays Only plan — 15% off
   weekend: 5,    // Weekend Only plan — no discount
 };

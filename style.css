@@ -316,7 +316,7 @@ p{ margin:0; }
     min-height: 100vh;
 }
 #menu-video{
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
