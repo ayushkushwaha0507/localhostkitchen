@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meal Attendance | Localhost Kitchen</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#E85D25">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="attendance.css">
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand-mark" aria-hidden="true">
+            <img viewBox="0 0 48 48" width="220" height="90" src="images/Logo_Localhost.png" alt="" >
+        
+      </span>
+  <!-- <a href="index.html" class="brand">🍱 Localhost Kitchen</a> -->
+  <span class="topbar-title">Meal Attendance</span>
+</header>
+
+<main class="app">
+
+  <!-- ================= LOGIN ================= -->
+  <section class="view is-active" id="view-login">
+    <div class="auth-card">
+      <p class="eyebrow">Localhost Kitchen</p>
+      <h1>Meal Attendance</h1>
+      <p class="auth-sub">Enter your registered email to continue.</p>
+
+      <label class="field">
+        Email Address
+        <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+      </label>
+      <p class="field-error" id="loginError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="sendOtpBtn">Send OTP</button>
+    </div>
+  </section>
+
+  <!-- ================= OTP ================= -->
+  <section class="view" id="view-otp">
+    <div class="auth-card">
+      <p class="eyebrow">Verify</p>
+      <h1>Enter OTP</h1>
+      <p class="auth-sub" id="otpSentTo">OTP sent to your registered email.</p>
+
+      <label class="field">
+        6-digit OTP
+        <input type="text" id="otpInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••••" autocomplete="one-time-code">
+      </label>
+      <p class="field-error" id="otpError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="verifyOtpBtn">Verify OTP</button>
+
+      <div class="auth-links">
+        <button type="button" class="link-btn" id="resendOtpBtn">Resend OTP</button>
+        <span id="resendCooldown" hidden></span>
+        <button type="button" class="link-btn" id="backToLoginBtn">Change email</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section class="view" id="view-dashboard">
+    <div class="dash-header">
+      <p class="dash-greeting" id="dashGreeting">Good day 👋</p>
+      <p class="dash-date" id="dashDate">Today</p>
+    </div>
+
+    <div class="sub-summary">
+      <p class="sub-summary-label">Your Subscription</p>
+      <div class="sub-summary-chips" id="subSummaryChips"></div>
+    </div>
+
+    <p class="present-note">✓ You're marked present for every meal below unless you skip it.</p>
+
+    <h2 class="section-title">Today's Meals</h2>
+    <div class="meal-cards" id="mealCards"><!-- rendered by attendance.js --></div>
+
+    <button type="button" class="btn btn-outline btn-block" id="openFutureAbsenceBtn">📅 Plan Future Absence</button>
+    <button type="button" class="btn btn-ghost btn-block" id="refreshBtn">🔄 Refresh</button>
+    <p class="last-updated" id="lastUpdated"></p>
+    <button type="button" class="link-btn logout-link" id="logoutBtn">Logout</button>
+  </section>
+
+</main>
+
+<!-- ================= FUTURE ABSENCE MODAL ================= -->
+<div class="modal-overlay" id="futureAbsenceModal">
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="closeFutureAbsenceBtn" aria-label="Close">&times;</button>
+    <h2>Plan Future Absence</h2>
+    <p class="modal-sub">Select a date range and the meals you'll be away for.</p>
+
+    <div class="date-row">
+      <label>From
+        <input type="date" id="absenceFrom">
+      </label>
+      <label>To
+        <input type="date" id="absenceTo">
+      </label>
+    </div>
+
+    <fieldset class="meal-checkboxes" id="absenceMealChecks">
+      <legend>Meals</legend>
+      <!-- rendered by attendance.js — only meals the student is subscribed to -->
+    </fieldset>
+
+    <p class="field-error" id="absenceError" hidden></p>
+    <button type="button" class="btn btn-primary btn-block" id="submitAbsenceBtn">Mark Absent</button>
+  </div>
+</div>
+
+<!-- ================= CONFIRM DIALOG (generic) ================= -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box modal-box--small">
+    <p id="confirmMessage"></p>
+    <div class="confirm-actions">
+      <button type="button" class="btn btn-outline" id="confirmCancelBtn">Cancel</button>
+      <button type="button" class="btn btn-primary" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><p id="loadingText">Loading…</p></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="attendance.js"></script>
+</body>
+</html>

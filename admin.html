@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | Localhost Kitchen</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#123B20">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<header class="topbar">
+  <a href="index.html" class="brand">🍱 Localhost Kitchen</a>
+  <span class="topbar-title">Admin Panel</span>
+</header>
+
+<main class="app">
+
+  <!-- ================= LOGIN ================= -->
+  <section class="view is-active" id="view-login">
+    <div class="auth-card">
+      <p class="eyebrow">Admin Access</p>
+      <h1>Admin Login</h1>
+      <p class="auth-sub">Enter your registered admin email.</p>
+      <label class="field">
+        Email Address
+        <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+      </label>
+      <p class="field-error" id="loginError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="sendOtpBtn">Send OTP</button>
+    </div>
+  </section>
+
+  <!-- ================= OTP ================= -->
+  <section class="view" id="view-otp">
+    <div class="auth-card">
+      <p class="eyebrow">Verify</p>
+      <h1>Enter OTP</h1>
+      <p class="auth-sub" id="otpSentTo">OTP sent to your registered email.</p>
+      <label class="field">
+        6-digit OTP
+        <input type="text" id="otpInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="••••••" autocomplete="one-time-code">
+      </label>
+      <p class="field-error" id="otpError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="verifyOtpBtn">Verify OTP</button>
+      <div class="auth-links">
+        <button type="button" class="link-btn" id="resendOtpBtn">Resend OTP</button>
+        <span id="resendCooldown" hidden></span>
+        <button type="button" class="link-btn" id="backToLoginBtn">Change email</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DASHBOARD ================= -->
+  <section class="view" id="view-dashboard">
+    <div class="dash-toolbar">
+      <div>
+        <h1 id="dashDate">Today</h1>
+        <p class="last-updated" id="lastUpdated"></p>
+      </div>
+      <button type="button" class="btn btn-outline" id="refreshBtn">🔄 Refresh</button>
+    </div>
+
+    <div class="meal-summary-cards" id="mealSummaryCards"><!-- rendered by admin.js --></div>
+
+    <button type="button" class="btn btn-outline btn-block" id="openManageUsersBtn">👥 Manage Users</button>
+    <button type="button" class="link-btn logout-link" id="logoutBtn">Logout</button>
+  </section>
+
+  <!-- ================= MEAL VIEW ================= -->
+  <section class="view" id="view-meal">
+    <div class="dash-toolbar">
+      <div>
+        <button type="button" class="link-btn" id="backToDashboardBtn">← Back</button>
+        <h1 id="mealViewTitle">Lunch</h1>
+        <p class="last-updated" id="mealViewDate"></p>
+      </div>
+      <div class="meal-view-actions">
+        <button type="button" class="btn btn-outline" id="mealRefreshBtn">🔄 Refresh</button>
+        <button type="button" class="btn btn-outline" id="printBtn">🖨️ Print</button>
+      </div>
+    </div>
+
+    <div class="meal-view-counts" id="mealViewCounts"></div>
+
+    <div class="student-list-block">
+      <h2>Present Students</h2>
+      <ul class="student-list" id="presentList"></ul>
+    </div>
+    <div class="student-list-block">
+      <h2>Absent Students</h2>
+      <ul class="student-list" id="absentList"></ul>
+    </div>
+  </section>
+
+  <!-- ================= MANAGE USERS ================= -->
+  <section class="view" id="view-users">
+    <div class="dash-toolbar">
+      <div>
+        <button type="button" class="link-btn" id="backFromUsersBtn">← Back</button>
+        <h1>Manage Users</h1>
+      </div>
+    </div>
+
+    <div class="user-tabs" id="userTabs">
+      <button type="button" class="user-tab is-active" data-tab="student">Add Student</button>
+      <button type="button" class="user-tab" data-tab="admin">Add Admin</button>
+    </div>
+
+    <!-- Add Student -->
+    <form class="user-form is-active" id="addStudentForm" novalidate>
+      <div class="form-grid">
+        <label>Name *
+          <input type="text" id="stuName" required>
+        </label>
+        <label>Email *
+          <input type="email" id="stuEmail" required>
+        </label>
+        <label>Phone
+          <input type="tel" id="stuPhone">
+        </label>
+        <label>Subscription Start *
+          <input type="date" id="stuStart" required>
+        </label>
+        <label>Subscription End *
+          <input type="date" id="stuEnd" required>
+        </label>
+      </div>
+      <fieldset class="bulk-meal-types">
+        <legend>Meals *</legend>
+        <label><input type="checkbox" id="stuBreakfast"> Breakfast</label>
+        <label><input type="checkbox" id="stuLunch"> Lunch</label>
+        <label><input type="checkbox" id="stuDinner"> Dinner</label>
+      </fieldset>
+      <p class="field-error" id="stuFormError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="submitStudentBtn">Add Student</button>
+    </form>
+
+    <!-- Add Admin -->
+    <form class="user-form" id="addAdminForm" novalidate>
+      <div class="form-grid">
+        <label>Name *
+          <input type="text" id="adminName" required>
+        </label>
+        <label>Email *
+          <input type="email" id="adminEmail" required>
+        </label>
+      </div>
+      <p class="field-note">This person will be able to log in to this Admin Panel and mark attendance for any student.</p>
+      <p class="field-error" id="adminFormError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="submitAdminBtn">Add Admin</button>
+    </form>
+  </section>
+
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><p id="loadingText">Loading…</p></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="config.js"></script>
+<script src="api.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
