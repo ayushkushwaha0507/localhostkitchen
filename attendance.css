@@ -56,6 +56,8 @@ input{ font-family:var(--font-body); }
 .dash-header{ margin-bottom:18px; }
 .dash-greeting{ font-family:var(--font-display); font-size:1.3rem; color:var(--brown); }
 .dash-date{ color:var(--ink-soft); font-size:.88rem; margin-top:2px; }
+.dash-remaining{ font-size:.8rem; color:var(--green); background:rgba(18,59,32,0.07); border-radius:var(--radius-sm); padding:8px 12px; margin-top:10px; display:inline-block; }
+.dash-remaining.is-warning{ color:#B3261E; background:rgba(179,38,30,0.08); }
 
 .sub-summary{ background:var(--cream-2); border-radius:var(--radius-md); padding:14px 16px; margin-bottom:16px; }
 .sub-summary-label{ font-family:var(--font-accent); font-weight:700; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--brown); margin-bottom:8px; }

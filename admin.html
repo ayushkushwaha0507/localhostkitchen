@@ -66,9 +66,20 @@
       <button type="button" class="btn btn-outline" id="refreshBtn">🔄 Refresh</button>
     </div>
 
+    <div class="quick-stats" id="quickStats"><!-- rendered by admin.js --></div>
+
     <div class="meal-summary-cards" id="mealSummaryCards"><!-- rendered by admin.js --></div>
 
-    <button type="button" class="btn btn-outline btn-block" id="openManageUsersBtn">👥 Manage Users</button>
+    <div class="expiring-soon-block" id="expiringSoonBlock" hidden>
+      <h2>⏰ Expiring Soon</h2>
+      <ul class="expiring-list" id="expiringList"></ul>
+    </div>
+
+    <div class="dash-nav-buttons">
+      <button type="button" class="btn btn-outline btn-block" id="openAllStudentsBtn">👥 All Students</button>
+      <button type="button" class="btn btn-outline btn-block" id="openRevenueBtn">💰 Revenue</button>
+      <button type="button" class="btn btn-outline btn-block" id="openManageUsersBtn">➕ Manage Users</button>
+    </div>
     <button type="button" class="link-btn logout-link" id="logoutBtn">Logout</button>
   </section>
 
@@ -109,6 +120,7 @@
 
     <div class="user-tabs" id="userTabs">
       <button type="button" class="user-tab is-active" data-tab="student">Add Student</button>
+      <button type="button" class="user-tab" data-tab="edit">Edit Student</button>
       <button type="button" class="user-tab" data-tab="admin">Add Admin</button>
     </div>
 
@@ -141,6 +153,46 @@
       <button type="button" class="btn btn-primary btn-block" id="submitStudentBtn">Add Student</button>
     </form>
 
+    <!-- Edit Student -->
+    <form class="user-form" id="editStudentForm" novalidate>
+      <label>Select Student
+        <select id="editStudentPicker">
+          <option value="">— choose a student —</option>
+        </select>
+      </label>
+
+      <div id="editStudentFields" hidden>
+        <div class="form-grid">
+          <label>Name *
+            <input type="text" id="editName" required>
+          </label>
+          <label>Phone
+            <input type="tel" id="editPhone">
+          </label>
+          <label>Subscription Start *
+            <input type="date" id="editStart" required>
+          </label>
+          <label>Subscription End *
+            <input type="date" id="editEnd" required>
+          </label>
+          <label>Status
+            <select id="editStatus">
+              <option value="ACTIVE">Active</option>
+              <option value="INACTIVE">Inactive</option>
+            </select>
+          </label>
+        </div>
+        <fieldset class="bulk-meal-types">
+          <legend>Meals *</legend>
+          <label><input type="checkbox" id="editBreakfast"> Breakfast</label>
+          <label><input type="checkbox" id="editLunch"> Lunch</label>
+          <label><input type="checkbox" id="editDinner"> Dinner</label>
+        </fieldset>
+        <p class="field-error" id="editFormError" hidden></p>
+        <button type="button" class="btn btn-primary btn-block" id="submitEditBtn">Save Changes</button>
+      </div>
+    </form>
+
     <!-- Add Admin -->
     <form class="user-form" id="addAdminForm" novalidate>
       <div class="form-grid">
@@ -157,7 +209,58 @@
     </form>
   </section>
 
+  <!-- ================= ALL STUDENTS ================= -->
+  <section class="view" id="view-all-students">
+    <div class="dash-toolbar">
+      <div>
+        <button type="button" class="link-btn" id="backFromAllStudentsBtn">← Back</button>
+        <h1>All Students</h1>
+        <p class="last-updated">Skip counts shown are for this month</p>
+      </div>
+    </div>
+    <input type="search" class="student-search" id="studentSearch" placeholder="Search by name or email…">
+    <div class="all-students-list" id="allStudentsList"><!-- rendered by admin.js --></div>
+  </section>
+
+  <!-- ================= REVENUE ================= -->
+  <section class="view" id="view-revenue">
+    <div class="dash-toolbar">
+      <div>
+        <button type="button" class="link-btn" id="backFromRevenueBtn">← Back</button>
+        <h1>Revenue</h1>
+        <p class="last-updated">Estimated from meals marked present — not a payment record</p>
+      </div>
+    </div>
+
+    <div class="date-row">
+      <label>From
+        <input type="date" id="revenueFrom">
+      </label>
+      <label>To
+        <input type="date" id="revenueTo">
+      </label>
+      <button type="button" class="btn btn-outline" id="revenueGoBtn">Go</button>
+    </div>
+
+    <div class="revenue-total-card" id="revenueTotalCard"></div>
+    <div class="revenue-meal-cards" id="revenueMealCards"></div>
+  </section>
+
 </main>
+
+<!-- ================= RENEW MODAL ================= -->
+<div class="modal-overlay" id="renewModal">
+  <div class="modal-box modal-box--small">
+    <button type="button" class="modal-close" id="closeRenewBtn" aria-label="Close">&times;</button>
+    <h2>Renew Subscription</h2>
+    <p class="modal-sub" id="renewStudentName"></p>
+    <label class="renew-field">New end date
+      <input type="date" id="renewNewDate">
+    </label>
+    <p class="field-error" id="renewFormError" hidden></p>
+    <button type="button" class="btn btn-primary btn-block" id="confirmRenewBtn">Renew</button>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div><p id="loadingText">Loading…</p></div>

@@ -48,6 +48,14 @@ const Api = (function () {
     adminOverride: (sessionToken, studentId, date, meal, newStatus) => call('adminOverride', { sessionToken, studentId, date, meal, newStatus }),
     adminAddStudent: (payload) => call('adminAddStudent', payload),
     adminAddAdmin: (sessionToken, name, email) => call('adminAddAdmin', { sessionToken, name, email }),
+    adminEditStudent: (payload) => call('adminEditStudent', payload),
+    adminGetStudent: (sessionToken, studentId) => call('adminGetStudent', { sessionToken, studentId }),
+    adminListStudents: (sessionToken) => call('adminListStudents', { sessionToken }),
+    adminGetExpiringSoon: (sessionToken) => call('adminGetExpiringSoon', { sessionToken }),
+    adminRenewStudent: (sessionToken, studentId, newEndDate) => call('adminRenewStudent', { sessionToken, studentId, newEndDate }),
+    adminSendReminder: (sessionToken, studentId) => call('adminSendReminder', { sessionToken, studentId }),
+    adminListStudentsDetailed: (sessionToken, fromDate, toDate) => call('adminListStudentsDetailed', { sessionToken, fromDate, toDate }),
+    adminGetRevenue: (sessionToken, fromDate, toDate) => call('adminGetRevenue', { sessionToken, fromDate, toDate }),
 
     // public
     getSettings: () => call('getSettings', {}),

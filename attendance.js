@@ -176,6 +176,15 @@ function renderDashboard(data) {
   document.getElementById('dashGreeting').textContent = `Welcome, ${data.name} 👋`;
   document.getElementById('dashDate').textContent = data.displayDate;
 
+  const remainingEl = document.getElementById('dashRemaining');
+  if (data.daysRemaining < 0) {
+    remainingEl.textContent = `Your subscription ended on ${data.subscriptionEndDisplay}.`;
+    remainingEl.classList.add('is-warning');
+  } else {
+    remainingEl.textContent = `Subscription active until ${data.subscriptionEndDisplay} (${data.daysRemaining} day${data.daysRemaining === 1 ? '' : 's'} left)`;
+    remainingEl.classList.toggle('is-warning', data.daysRemaining <= 3);
+  }
+
   const chips = Object.entries(data.subscription)
     .filter(([, subscribed]) => subscribed)
     .map(([meal]) => `<span class="chip">${MEAL_ICON[meal]} ${capitalize(meal)}</span>`)
