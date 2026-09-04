@@ -67,6 +67,16 @@ input{ font-family:var(--font-body); }
 .present-note{ font-size:.82rem; color:var(--green); background:rgba(18,59,32,0.07); border-radius:var(--radius-sm); padding:10px 12px; margin-bottom:18px; }
 .section-title{ font-size:1.1rem; margin-bottom:12px; }
 
+.day-tabs{ display:flex; gap:8px; margin-bottom:16px; }
+.day-tab{
+  flex:1; background:var(--white); border:1.5px solid var(--border); color:var(--ink-soft);
+  font-family:var(--font-accent); font-weight:700; font-size:.88rem; padding:11px; border-radius:999px; cursor:pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.day-tab.is-active{ background:var(--orange); border-color:var(--orange); color:#fff; }
+.day-panel{ display:none; }
+.day-panel.is-active{ display:block; animation:fadeIn .2s ease; }
+
 .meal-cards{ display:flex; flex-direction:column; gap:14px; margin-bottom:22px; }
 .meal-card{ background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow-soft); }
 .meal-badge{ display:inline-block; font-family:var(--font-accent); font-weight:800; font-size:.7rem; letter-spacing:.04em; color:var(--orange-dk); margin-bottom:6px; }

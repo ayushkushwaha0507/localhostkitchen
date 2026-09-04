@@ -74,8 +74,20 @@
 
     <p class="present-note">✓ You're marked present for every meal below unless you skip it.</p>
 
-    <h2 class="section-title">Today's Meals</h2>
-    <div class="meal-cards" id="mealCards"><!-- rendered by attendance.js --></div>
+    <div class="day-tabs" id="dayTabs">
+      <button type="button" class="day-tab is-active" data-day-tab="today">Today</button>
+      <button type="button" class="day-tab" data-day-tab="tomorrow">Tomorrow</button>
+    </div>
+
+    <div class="day-panel is-active" id="todayPanel">
+      <h2 class="section-title">Today's Meals</h2>
+      <div class="meal-cards" id="mealCards"><!-- rendered by attendance.js --></div>
+    </div>
+
+    <div class="day-panel" id="tomorrowPanel">
+      <h2 class="section-title">Tomorrow's Meals</h2>
+      <div class="meal-cards" id="tomorrowMealCards"><!-- rendered by attendance.js --></div>
+    </div>
 
     <button type="button" class="btn btn-outline btn-block" id="openFutureAbsenceBtn">📅 Plan Future Absence</button>
     <button type="button" class="btn btn-ghost btn-block" id="refreshBtn">🔄 Refresh</button>

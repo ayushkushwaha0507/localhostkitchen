@@ -4,7 +4,7 @@
  */
 const CONFIG = {
   // Apps Script: Deploy -> New deployment -> Web app -> copy the /exec URL here
-  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwUi8f1OVr65q-43AshhBDULa3mpEMFqGrRiRG7fN1ADMKZC41iWYsnlWHZS1SmRzGWaw/exec',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbw9J7nc6UIR0A39Ttz-3z0AsagCGWNl2vyYueXOoOKp9I0d_6cgVcOhT15UYbbBKlQGXw/exec',
 
   // EmailJS: from your EmailJS dashboard (Account -> General for the public key,
   // Email Services for the service ID, Email Templates for the template ID)

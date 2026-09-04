@@ -191,17 +191,29 @@ function renderDashboard(data) {
     .join('');
   document.getElementById('subSummaryChips').innerHTML = chips;
 
-  const cards = Object.entries(data.statuses).map(([meal, status]) => {
-    const dish = data.menu[meal];
+  renderMealCards('mealCards', data.date, data.statuses, data.menu, 'today');
+  renderMealCards('tomorrowMealCards', data.tomorrow.date, data.tomorrow.statuses, data.tomorrow.menu, 'tomorrow');
+
+  document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+
+  renderAbsenceMealChecks(data.subscription);
+}
+
+/** Builds one day's meal cards into a container — each Skip/Undo button carries
+ * its own date, so the same click handler works correctly for both today and
+ * tomorrow regardless of which section triggered it. */
+function renderMealCards(containerId, dateISO, statuses, menu, dayWord) {
+  const cards = Object.entries(statuses).map(([meal, status]) => {
+    const dish = menu[meal];
     const dishHTML = dish
       ? `<h3>${dish.dish}</h3><p class="meal-desc">${dish.description || ''}</p><p class="meal-price">₹${dish.price}</p>`
       : `<h3>Menu not published yet</h3>`;
 
     let actionHTML;
     if (status === 'ABSENT') {
-      actionHTML = `<p class="status-line status-absent">✕ ${capitalize(meal)} skipped</p><button type="button" class="btn btn-outline btn-block" data-undo="${meal}">Undo Skip</button>`;
+      actionHTML = `<p class="status-line status-absent">✕ ${capitalize(meal)} skipped</p><button type="button" class="btn btn-outline btn-block" data-undo="${meal}" data-date="${dateISO}" data-day-word="${dayWord}">Undo Skip</button>`;
     } else {
-      actionHTML = `<p class="status-line status-present">✓ You are marked PRESENT</p><button type="button" class="btn btn-outline btn-block" data-skip="${meal}">Skip ${capitalize(meal)}</button>`;
+      actionHTML = `<p class="status-line status-present">✓ You are marked PRESENT</p><button type="button" class="btn btn-outline btn-block" data-skip="${meal}" data-date="${dateISO}" data-day-word="${dayWord}">Skip ${capitalize(meal)}</button>`;
     }
 
     return `
@@ -211,16 +223,12 @@ function renderDashboard(data) {
         ${actionHTML}
       </div>`;
   }).join('');
-  document.getElementById('mealCards').innerHTML = cards || '<p class="empty-note">You have no active meal subscriptions.</p>';
-
-  document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
-
-  renderAbsenceMealChecks(data.subscription);
+  document.getElementById(containerId).innerHTML = cards || '<p class="empty-note">You have no active meal subscriptions.</p>';
 }
 
 function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
-document.getElementById('mealCards').addEventListener('click', async (e) => {
+async function handleMealCardClick(e) {
   const skipBtn = e.target.closest('[data-skip]');
   const undoBtn = e.target.closest('[data-undo]');
   const session = getSession();
@@ -229,10 +237,12 @@ document.getElementById('mealCards').addEventListener('click', async (e) => {
   try {
     if (skipBtn) {
       const meal = skipBtn.dataset.skip;
-      const confirmed = await askConfirm(`Are you sure you want to skip today's ${meal}?`);
+      const dateISO = skipBtn.dataset.date;
+      const dayWord = skipBtn.dataset.dayWord;
+      const confirmed = await askConfirm(`Are you sure you want to skip ${dayWord}'s ${meal}?`);
       if (!confirmed) return;
       setLoading(true, 'Saving your absence…');
-      const res = await Api.skipMeal(session.token, currentDashboard.date, meal);
+      const res = await Api.skipMeal(session.token, dateISO, meal);
       setLoading(false);
       if (!res.success) return showToast(res.debug ? `${res.message} (${res.debug})` : res.message);
       await loadDashboard();
@@ -240,8 +250,9 @@ document.getElementById('mealCards').addEventListener('click', async (e) => {
 
     if (undoBtn) {
       const meal = undoBtn.dataset.undo;
+      const dateISO = undoBtn.dataset.date;
       setLoading(true, 'Updating…');
-      const res = await Api.undoSkip(session.token, currentDashboard.date, meal);
+      const res = await Api.undoSkip(session.token, dateISO, meal);
       setLoading(false);
       if (!res.success) return showToast(res.debug ? `${res.message} (${res.debug})` : res.message);
       await loadDashboard();
@@ -251,6 +262,18 @@ document.getElementById('mealCards').addEventListener('click', async (e) => {
     setLoading(false);
     showToast('Something went wrong on this page. Please refresh and try again.');
   }
+}
+document.getElementById('mealCards').addEventListener('click', handleMealCardClick);
+document.getElementById('tomorrowMealCards').addEventListener('click', handleMealCardClick);
+
+// Today / Tomorrow tab switching
+document.getElementById('dayTabs').addEventListener('click', (e) => {
+  const tab = e.target.closest('.day-tab');
+  if (!tab) return;
+  const which = tab.dataset.dayTab;
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.toggle('is-active', t === tab));
+  document.getElementById('todayPanel').classList.toggle('is-active', which === 'today');
+  document.getElementById('tomorrowPanel').classList.toggle('is-active', which === 'tomorrow');
 });
 
 document.getElementById('refreshBtn').addEventListener('click', loadDashboard);

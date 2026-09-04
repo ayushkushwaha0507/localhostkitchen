@@ -41,6 +41,10 @@ const Api = (function () {
     adminRequestOtp: (email) => call('adminRequestOtp', { email }),
     adminVerifyOtp: (email, otp) => call('adminVerifyOtp', { email, otp }),
     adminLogout: (sessionToken) => call('adminLogout', { sessionToken }),
+    adminLoginPassword: (email, password) => call('adminLoginPassword', { email, password }),
+    adminVerifyOtpForPasswordSetup: (email, otp) => call('adminVerifyOtpForPasswordSetup', { email, otp }),
+    adminSetPassword: (setupToken, newPassword) => call('adminSetPassword', { setupToken, newPassword }),
+    adminChangePassword: (sessionToken, currentPassword, newPassword) => call('adminChangePassword', { sessionToken, currentPassword, newPassword }),
 
     // admin data
     getAdminDashboard: (sessionToken, date) => call('getAdminDashboard', { sessionToken, date }),

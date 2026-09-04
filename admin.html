@@ -21,25 +21,32 @@
 
 <main class="app">
 
-  <!-- ================= LOGIN ================= -->
+  <!-- ================= LOGIN (password) ================= -->
   <section class="view is-active" id="view-login">
     <div class="auth-card">
       <p class="eyebrow">Admin Access</p>
       <h1>Admin Login</h1>
-      <p class="auth-sub">Enter your registered admin email.</p>
+      <p class="auth-sub">Enter your email and password.</p>
       <label class="field">
         Email Address
         <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email">
       </label>
+      <label class="field">
+        Password
+        <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+      </label>
       <p class="field-error" id="loginError" hidden></p>
-      <button type="button" class="btn btn-primary btn-block" id="sendOtpBtn">Send OTP</button>
+      <button type="button" class="btn btn-primary btn-block" id="loginPasswordBtn">Login</button>
+      <div class="auth-links">
+        <button type="button" class="link-btn" id="goToOtpSetupBtn">First time or forgot password? Verify by email</button>
+      </div>
     </div>
   </section>
 
-  <!-- ================= OTP ================= -->
+  <!-- ================= OTP (used only to verify email before setting/resetting a password) ================= -->
   <section class="view" id="view-otp">
     <div class="auth-card">
-      <p class="eyebrow">Verify</p>
+      <p class="eyebrow">Verify Your Email</p>
       <h1>Enter OTP</h1>
       <p class="auth-sub" id="otpSentTo">OTP sent to your registered email.</p>
       <label class="field">
@@ -51,8 +58,27 @@
       <div class="auth-links">
         <button type="button" class="link-btn" id="resendOtpBtn">Resend OTP</button>
         <span id="resendCooldown" hidden></span>
-        <button type="button" class="link-btn" id="backToLoginBtn">Change email</button>
+        <button type="button" class="link-btn" id="backToLoginBtn">Back to login</button>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= SET PASSWORD (after OTP verification) ================= -->
+  <section class="view" id="view-set-password">
+    <div class="auth-card">
+      <p class="eyebrow">Almost Done</p>
+      <h1>Set Your Password</h1>
+      <p class="auth-sub">Choose a password you'll use to log in from now on.</p>
+      <label class="field">
+        New Password
+        <input type="password" id="newPasswordInput" placeholder="At least 6 characters" autocomplete="new-password">
+      </label>
+      <label class="field">
+        Confirm Password
+        <input type="password" id="confirmPasswordInput" placeholder="Re-enter password" autocomplete="new-password">
+      </label>
+      <p class="field-error" id="setPasswordError" hidden></p>
+      <button type="button" class="btn btn-primary btn-block" id="savePasswordBtn">Save Password &amp; Log In</button>
     </div>
   </section>
 

@@ -36,14 +36,34 @@ function errorText(res) {
 }
 
 // =================================================================
-// LOGIN (mirrors attendance.js — same OTP mechanism, admin actions)
+// LOGIN — password is the normal day-to-day path. OTP is only used to
+// verify email ownership before setting/resetting a password.
 // =================================================================
 let pendingEmail = '';
 
-document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+document.getElementById('loginPasswordBtn').addEventListener('click', async () => {
   showFieldError('loginError', '');
   const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
   if (!email) return showFieldError('loginError', 'Please enter your email address.');
+  if (!password) return showFieldError('loginError', 'Please enter your password.');
+
+  setLoading(true, 'Logging in…');
+  const res = await Api.adminLoginPassword(email, password);
+  setLoading(false);
+  if (!res.success) return showFieldError('loginError', errorText(res));
+
+  saveSession(res.data.sessionToken, res.data.name);
+  document.getElementById('loginPassword').value = '';
+  await loadDashboard();
+});
+
+// "First time or forgot password?" — reuses whatever email is already
+// typed in, so nobody has to enter it twice.
+document.getElementById('goToOtpSetupBtn').addEventListener('click', async () => {
+  showFieldError('loginError', '');
+  const email = document.getElementById('loginEmail').value.trim();
+  if (!email) return showFieldError('loginError', 'Enter your email above first, then tap this again.');
 
   setLoading(true, 'Sending OTP…');
   const res = await Api.adminRequestOtp(email);
@@ -73,12 +93,15 @@ document.getElementById('verifyOtpBtn').addEventListener('click', async () => {
   if (!/^\d{6}$/.test(otp)) return showFieldError('otpError', 'Please enter the 6-digit code.');
 
   setLoading(true, 'Verifying…');
-  const res = await Api.adminVerifyOtp(pendingEmail, otp);
+  const res = await Api.adminVerifyOtpForPasswordSetup(pendingEmail, otp);
   setLoading(false);
   if (!res.success) return showFieldError('otpError', errorText(res));
 
-  saveSession(res.data.sessionToken, res.data.name);
-  await loadDashboard();
+  pendingSetupToken = res.data.setupToken;
+  document.getElementById('newPasswordInput').value = '';
+  document.getElementById('confirmPasswordInput').value = '';
+  showFieldError('setPasswordError', '');
+  showView('view-set-password');
 });
 
 let resendTimer = null;
@@ -110,6 +133,28 @@ document.getElementById('resendOtpBtn').addEventListener('click', async () => {
   } catch {
     showFieldError('otpError', "⚠️ We couldn't send the OTP. Please try again.");
   }
+});
+
+// =================================================================
+// SET PASSWORD (after OTP verification)
+// =================================================================
+let pendingSetupToken = '';
+
+document.getElementById('savePasswordBtn').addEventListener('click', async () => {
+  showFieldError('setPasswordError', '');
+  const pw = document.getElementById('newPasswordInput').value;
+  const confirm = document.getElementById('confirmPasswordInput').value;
+  if (pw.length < 6) return showFieldError('setPasswordError', 'Password must be at least 6 characters.');
+  if (pw !== confirm) return showFieldError('setPasswordError', 'Passwords do not match.');
+
+  setLoading(true, 'Saving password…');
+  const res = await Api.adminSetPassword(pendingSetupToken, pw);
+  setLoading(false);
+  if (!res.success) return showFieldError('setPasswordError', errorText(res));
+
+  saveSession(res.data.sessionToken, res.data.name);
+  showToast('Password set. You\'re logged in.');
+  await loadDashboard();
 });
 
 document.getElementById('logoutBtn').addEventListener('click', async () => {
